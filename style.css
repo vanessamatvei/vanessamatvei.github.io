@@ -10,31 +10,6 @@
   padding: 0;
 }
 
-/* Ensure the main content hugs the footer (added as requested) */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #fff7f3;
-  color: #3a2c2b;
-  font-family: 'Merriweather', serif;
-  line-height: 1.7;
-  font-size: 16px;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* Layout helpers so footer sits without big gaps */
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
-
-main {
-  /* allow main to take remaining space so footer hugs the bottom */
-  flex: 1;
-}
 
 img {
   max-width: 100%;
