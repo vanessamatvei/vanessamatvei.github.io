@@ -20,11 +20,12 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+/* 
 main {
   /* allow main to take remaining space so footer hugs the bottom */
   flex: 1;
 }
-
+*/
 
 img {
   max-width: 100%;
