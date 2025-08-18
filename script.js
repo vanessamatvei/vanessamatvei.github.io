@@ -1,9 +1,9 @@
-/* script.js — reveal on scroll, mobile nav toggle, footer-only petals animation (retina-aware),
-   image fade-ins, and contact form handling (Formspree + mailto fallback) */
+/* script.js — reveal on scroll, mobile nav toggle, footer-only petals animation, image fade-ins,
+   plus contact form submission handling (Formspree + mailto fallback) */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /*********** Reveal on scroll ***********/
+  /*********** Reveal on scroll (unchanged) ***********/
   const reveals = document.querySelectorAll('.reveal, article, header, section');
   if ('IntersectionObserver' in window) {
     const io = new IntersectionObserver((entries, obs) => {
@@ -56,150 +56,118 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /*********** FOOTER-ONLY PETALS ANIMATION (retina-aware) ***********/
+  /*********** FOOTER-ONLY PETALS ANIMATION (unchanged behavior) ***********/
   const footer = document.querySelector('.site-footer');
-  if (footer) {
-    const fcanvas = document.createElement('canvas');
-    fcanvas.className = 'footer-canvas';
-    Object.assign(fcanvas.style, {
-      position: 'absolute',
-      left: '0',
-      top: '0',
-      width: '100%',
-      height: '100%',
-      pointerEvents: 'none',
-      zIndex: 1,
+  if (!footer) return;
+
+  const fcanvas = document.createElement('canvas');
+  fcanvas.className = 'footer-canvas';
+  Object.assign(fcanvas.style, {
+    position: 'absolute',
+    left: '0',
+    top: '0',
+    width: '100%',
+    height: '100%',
+    pointerEvents: 'none',
+    zIndex: 1,
+  });
+  Array.from(footer.children).forEach(ch => {
+    ch.style.position = ch.style.position || 'relative';
+    ch.style.zIndex = 2;
+  });
+  footer.appendChild(fcanvas);
+
+  const fctx = fcanvas.getContext('2d');
+  let FW = fcanvas.width = footer.clientWidth;
+  let FH = fcanvas.height = footer.clientHeight;
+
+  class FooterPetal {
+    constructor(initial = true) { this.reset(initial); }
+    reset(initial = false) {
+      this.x = Math.random() * FW;
+      this.y = initial ? Math.random() * FH : -10 - Math.random() * 60;
+      this.size = 3 + Math.random() * 6;
+      this.speedX = (Math.random() - 0.5) * 0.6;
+      this.speedY = 0.4 + Math.random() * 0.9;
+      this.angle = Math.random() * Math.PI * 2;
+      this.spin = (Math.random() - 0.5) * 0.04;
+      this.h = 340 + Math.random() * 12;
+      this.s = 62 + Math.random() * 8;
+      this.l = 76 - Math.random() * 8;
+      this.alpha = 0.5 + Math.random() * 0.35;
+      this.wobble = 0.08 + Math.random() * 0.18;
+    }
+    draw(ctx) {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.beginPath();
+      ctx.moveTo(0, -this.size);
+      ctx.bezierCurveTo(this.size / 2, -this.size / 2, this.size / 2, this.size / 2, 0, this.size);
+      ctx.bezierCurveTo(-this.size / 2, this.size / 2, -this.size / 2, -this.size / 2, 0, -this.size);
+      ctx.fillStyle = `hsla(${this.h}, ${this.s}%, ${this.l}%, ${this.alpha})`;
+      ctx.fill();
+      ctx.restore();
+    }
+    update(mouseVelX = 0, mouseVelY = 0) {
+      this.x += this.speedX + mouseVelX * (Math.random() * 3);
+      this.y += this.speedY + mouseVelY * (Math.random() * 2);
+      this.angle += this.spin;
+      this.x += Math.sin(this.y * this.wobble + this.size) * 0.4;
+      if (this.y > FH + 20 || this.x < -40 || this.x > FW + 40) this.reset(false);
+    }
+  }
+
+  let fpetals = new Array(Math.max(12, Math.floor((FW * FH) / 12000))).fill().map(() => new FooterPetal(true));
+
+  const mouse = { x: FW / 2, y: FH / 2, lastX: FW / 2, lastY: FH / 2 };
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = Math.max(0, Math.min(FW, e.clientX - footer.getBoundingClientRect().left));
+    mouse.y = Math.max(0, Math.min(FH, e.clientY - footer.getBoundingClientRect().top));
+  });
+
+  function resizeFooterCanvas() {
+    FW = fcanvas.width = footer.clientWidth;
+    FH = fcanvas.height = footer.clientHeight;
+    fpetals = new Array(Math.max(12, Math.floor((FW * FH) / 12000))).fill().map(() => new FooterPetal(true));
+  }
+  window.addEventListener('resize', () => resizeFooterCanvas());
+
+  let rafId = null;
+  let animating = false;
+  const footerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) startFooterAnim();
+      else stopFooterAnim();
     });
-    // ensure footer children are above the canvas (text stays readable)
-    Array.from(footer.children).forEach(ch => {
-      ch.style.position = ch.style.position || 'relative';
-      ch.style.zIndex = 2;
-    });
-    footer.appendChild(fcanvas);
+  }, { threshold: 0.02 });
+  footerObserver.observe(footer);
 
-    const fctx = fcanvas.getContext('2d');
-
-    // handle high-DPI displays
-    function resizeCanvas() {
-      const dpr = window.devicePixelRatio || 1;
-      fcanvas.width = footer.scrollWidth * dpr;
-      fcanvas.height = footer.scrollHeight * dpr;
-      fcanvas.style.width = footer.scrollWidth + 'px';
-      fcanvas.style.height = footer.scrollHeight + 'px';
-      fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    }
-
-    let FW = 100;
-    let FH = 40;
-
-    class FooterPetal {
-      constructor(initial = true) { this.reset(initial); }
-      reset(initial = false) {
-        const rect = footer.getBoundingClientRect();
-        FW = rect.width; FH = rect.height;
-        this.x = Math.random() * FW;
-        this.y = initial ? Math.random() * FH : -10 - Math.random() * 60;
-        this.size = 3 + Math.random() * 6;
-        this.speedX = (Math.random() - 0.5) * 0.6;
-        this.speedY = 0.4 + Math.random() * 0.9;
-        this.angle = Math.random() * Math.PI * 2;
-        this.spin = (Math.random() - 0.5) * 0.04;
-        this.h = 340 + Math.random() * 12;
-        this.s = 62 + Math.random() * 8;
-        this.l = 76 - Math.random() * 8;
-        this.alpha = 0.45 + Math.random() * 0.35;
-        this.wobble = 0.08 + Math.random() * 0.18;
-      }
-      draw(ctx) {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.beginPath();
-        ctx.moveTo(0, -this.size);
-        ctx.bezierCurveTo(this.size / 2, -this.size / 2, this.size / 2, this.size / 2, 0, this.size);
-        ctx.bezierCurveTo(-this.size / 2, this.size / 2, -this.size / 2, -this.size / 2, 0, -this.size);
-        ctx.fillStyle = `hsla(${this.h}, ${this.s}%, ${this.l}%, ${this.alpha})`;
-        ctx.fill();
-        ctx.restore();
-      }
-      update(mouseVelX = 0, mouseVelY = 0) {
-        this.x += this.speedX + mouseVelX * (Math.random() * 3);
-        this.y += this.speedY + mouseVelY * (Math.random() * 2);
-        this.angle += this.spin;
-        this.x += Math.sin(this.y * this.wobble + this.size) * 0.4;
-        if (this.y > FH + 20 || this.x < -40 || this.x > FW + 40) this.reset(false);
-      }
-    }
-
-    let fpetals = [];
-    function rebuildPetals() {
-      const rect = footer.getBoundingClientRect();
-      FW = Math.max(1, rect.width);
-      FH = Math.max(1, rect.height);
-      const count = Math.max(10, Math.floor((FW * FH) / 12000));
-      fpetals = new Array(count).fill().map(() => new FooterPetal(true));
-    }
-
-    // small mouse velocity tracker relative to footer
-    const mouse = { x: 0, y: 0, lastX: 0, lastY: 0 };
-    window.addEventListener('mousemove', (e) => {
-      const rect = footer.getBoundingClientRect();
-      mouse.x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
-      mouse.y = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
-    });
-
-    function onResize() {
-      resizeCanvas();
-      rebuildPetals();
-    }
-    window.addEventListener('resize', onResize);
-    resizeCanvas();
-    rebuildPetals();
-
-    let rafId = null;
-    let animating = false;
-    const footerObserver = new IntersectionObserver((entries) => {
-      entries.forEach(en => {
-        if (en.isIntersecting) startFooterAnim();
-        else stopFooterAnim();
-      });
-    }, { threshold: 0.02 });
-    footerObserver.observe(footer);
-
-    function startFooterAnim() {
-      if (animating) return;
-      animating = true;
-      mouse.lastX = mouse.x;
-      mouse.lastY = mouse.y;
-      loop();
-    }
-    function stopFooterAnim() {
-      animating = false;
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = null;
-      fctx.clearRect(0, 0, fcanvas.width, fcanvas.height);
-    }
-    function loop() {
-      const vx = (mouse.x - mouse.lastX) * 0.02;
-      const vy = (mouse.y - mouse.lastY) * 0.02;
-      mouse.lastX += (mouse.x - mouse.lastX) * 0.12;
-      mouse.lastY += (mouse.y - mouse.lastY) * 0.12;
-
-      // clear in CSS-pixel coordinates (context already scaled by dpr)
-      const rect = footer.getBoundingClientRect();
-      fctx.clearRect(0, 0, rect.width, rect.height);
-
-      for (let p of fpetals) {
-        p.update(vx, vy);
-        p.draw(fctx);
-      }
-      rafId = requestAnimationFrame(loop);
-    }
-
-    // Accessibility: respect reduced motion preference
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mq && mq.matches) stopFooterAnim();
-  } // end footer handling
+  function startFooterAnim() {
+    if (animating) return;
+    animating = true;
+    mouse.lastX = mouse.x;
+    mouse.lastY = mouse.y;
+    loop();
+  }
+  function stopFooterAnim() {
+    animating = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+    fctx.clearRect(0, 0, FW, FH);
+  }
+  function loop() {
+    const vx = (mouse.x - mouse.lastX) * 0.02;
+    const vy = (mouse.y - mouse.lastY) * 0.02;
+    mouse.lastX += (mouse.x - mouse.lastX) * 0.12;
+    mouse.lastY += (mouse.y - mouse.lastY) * 0.12;
+    fctx.clearRect(0, 0, FW, FH);
+    for (let p of fpetals) { p.update(vx, vy); p.draw(fctx); }
+    rafId = requestAnimationFrame(loop);
+  }
+  resizeFooterCanvas();
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mq && mq.matches) stopFooterAnim();
 
   /*********** CONTACT FORM HANDLING ***********/
   const contactForm = document.getElementById('contactForm');
@@ -213,18 +181,15 @@ document.addEventListener('DOMContentLoaded', () => {
       : null;
 
     function showStatus(msg, isError = false) {
-      if (statusEl) {
-        statusEl.textContent = msg;
-        statusEl.style.color = isError ? '#b02a2a' : '#3a6b4a';
-      } else {
-        alert(msg);
-      }
+      statusEl.textContent = msg;
+      statusEl.style.color = isError ? '#b02a2a' : '#3a6b4a';
       if (!isError) contactForm.reset();
     }
 
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      // basic validation
       const firstName = contactForm.firstName.value.trim();
       const lastName = contactForm.lastName.value.trim();
       const email = contactForm.email.value.trim();
@@ -236,6 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!firstName || !lastName || !email || !message) {
         return showStatus('Please complete all fields before sending.', true);
       }
+      // simple email format check
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return showStatus('Please enter a valid email address.', true);
       }
@@ -245,6 +211,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         if (endpoint) {
+          // POST to Formspree (JSON). Replace endpoint with your actual Formspree form ID URL.
           const payload = {
             firstName, lastName, email, message, _subject: `Website message from ${firstName} ${lastName}`
           };
@@ -261,6 +228,7 @@ document.addEventListener('DOMContentLoaded', () => {
             showStatus(errMsg, true);
           }
         } else {
+          // Fallback: open mail client with mailto: (prefill)
           const subject = encodeURIComponent(`Website message from ${firstName} ${lastName}`);
           const body = encodeURIComponent(`Name: ${firstName} ${lastName}\nEmail: ${email}\n\nMessage:\n${message}`);
           window.location.href = `mailto:vanessamatvei@gmail.com?subject=${subject}&body=${body}`;
@@ -276,4 +244,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-}); // DOMContentLoaded
+});
