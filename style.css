@@ -379,3 +379,17 @@ a:focus, .nav-btn:focus, .contact-form button:focus, .preprint-btn:focus {
 /* small typographic helpers */
 p { display:block; margin-bottom:1em; line-height:1.6; }
 .about-text p { margin:0 0 1em 0; line-height:1.6; }
+
+
+
+//signature
+.signature {
+  text-align: center; /* centers image horizontally */
+  margin-bottom: 20px; /* space before footer */
+}
+
+.signature img {
+  max-width: 200px; /* scale down if needed */
+  height: auto;
+  padding-right: 20px; /* if you prefer it shifted slightly */
+}
