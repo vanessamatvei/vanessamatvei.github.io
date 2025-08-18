@@ -112,19 +112,20 @@ article {
   transform-origin: center top;
   will-change: transform, box-shadow;
 }
-/* stronger, tasteful hover growth so cards "lift" and slightly enlarge */
+/* stronger, noticeable hover growth so cards "lift" and become clearly larger */
 article:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 22px 60px rgba(55,40,35,0.12);
-  z-index: 10;
+  transform: translateY(-10px) scale(1.06);
+  box-shadow: 0 30px 80px rgba(55,40,35,0.14);
+  z-index: 12;
 }
 
-/* Titles inside article - more prominent and slightly larger */
+/* Titles inside article - more prominent and smoothly change color on hover */
 article h1, article h2 {
   font-family: 'Playfair Display', serif;
   font-weight:700;
-  color:#3f2e2d; /* a touch darker for stronger contrast */
+  color:#3f2e2d; /* default title color */
   margin-bottom:8px;
+  transition: color 240ms cubic-bezier(.2,.9,.25,1), transform 200ms ease;
 }
 article h1 {
   font-size: clamp(1.35rem, 2.2vw, 1.9rem); /* larger and responsive */
@@ -144,7 +145,6 @@ article h1::after {
   background: rgba(233,210,206,0.95); /* warm muted accent */
   margin-top:10px;
 }
-/* If some articles use h2 as top title, keep rule for h2 as well */
 article h2::after {
   content: "";
   display:block;
@@ -155,8 +155,22 @@ article h2::after {
   margin-top:8px;
 }
 
-/* paragraph heading spacing: keep a little more space between the title-rule and the intro paragraph */
-article p:first-of-type { margin-top:14px; }
+/* When the card is hovered, make the title color shift to the site's accent (button pink) */
+article:hover h1,
+article:hover h2 {
+  color: #ff6b81;
+}
+
+/* Link styling inside articles: default + hover using the pink accent */
+article a {
+  color: #7d514a;
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 180ms ease;
+}
+article a:hover {
+  color: #ff5268;
+}
 
 /* Authors line */
 .pub-authors {
