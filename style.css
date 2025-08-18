@@ -257,6 +257,11 @@ button.action-btn:hover {
   justify-content: flex-end;
   align-items: stretch;
 }
+.about-text p {
+  margin-bottom: 1em;  /* space after each paragraph */
+  margin-top: 1em;     /* optional: adds a bit of space before paragraph */
+}
+
 .about-image img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 6px; box-shadow: none; }
 
 /* Contact area - form and social icons */
