@@ -404,3 +404,36 @@ a:focus,
 /* small typographic helpers */
 p { display: block; margin-bottom: 1em; line-height: 1.6; }
 .about-text p { margin: 0 0 1em 0; line-height: 1.6; }
+
+
+//
+/* Contact layout: side-by-side on desktop, stacked on small screens */
+.contact-area {
+  display: flex;
+  gap: 36px;
+  align-items: flex-start;    /* align top edges */
+  flex-wrap: wrap;            /* allow wrap on small screens */
+  justify-content: space-between;
+}
+
+/* Form takes the remaining flexible space */
+.contact-form {
+  flex: 1 1 65%;              /* grow, shrink, ideal basis 65% */
+  min-width: 320px;           /* prevents it from getting too narrow */
+  box-sizing: border-box;
+}
+
+/* Right-hand "find me around web" column stays fixed-ish */
+.contact-info {
+  flex: 0 0 300px;            /* fixed base width, but will shrink if needed */
+  min-width: 220px;
+  box-sizing: border-box;
+  align-self: flex-start;     /* ensures it aligns to top of form */
+}
+
+/* On narrow screens force full-width stacked layout */
+@media (max-width: 820px) {
+  .contact-area { gap: 20px; }
+  .contact-form, .contact-info { flex: 1 1 100%; min-width: 0; width: 100%; }
+}
+
