@@ -108,7 +108,14 @@ nav {
 .hero {
   text-align: left;
   padding: 72px 40px 36px;
-  background: linear-gradient(180deg, rgba(255,235,239,0.98), rgba(255,247,244,0.95));
+  /*background: linear-gradient(180deg, rgba(255,235,239,0.98), rgba(255,247,244,0.95)); */
+  
+  background: linear-gradient(
+  180deg,
+  rgba(255, 230, 236, 0.98) 0%,   /* hotter pink at the top */
+  rgba(255, 241, 240, 0.96) 50%,  /* gentle soft mid-tone */
+  rgba(255, 247, 244, 0.95) 100%  /* very light base at bottom */);
+
   border-bottom: 1px solid rgba(58,40,35,0.02);
 }
 .hero-inner { max-width: 1080px; margin: 0 auto; }
