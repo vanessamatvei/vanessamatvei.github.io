@@ -388,13 +388,23 @@ p { display:block; margin-bottom:1em; line-height:1.6; }
   .signature img,
   .about-signature img,
   .footer-signature img {
-    max-width: 94%;       /* scale to most of screen width */
-    display: block;       /* ensures it’s a block element */
-    margin-left: auto;    /* centers horizontally */
-    margin-right: auto;   /* centers horizontally */
-    padding: 0;           /* remove padding that might shift it */
+    max-width: 94%;          /* scale */
+    display: block;          /* block-level */
+    margin-inline: auto;     /* modern shorthand for L/R auto */
+    padding: 0;              /* reset */
+    float: none;             /* prevent floating */
+    text-align: center;      /* if parent text-align leaks */
   }
 }
+
+.signature,
+.about-signature,
+.footer-signature {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 
 //* Footer container spacing */
 .site-footer .container > * {
