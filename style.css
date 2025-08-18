@@ -406,7 +406,7 @@ button.action-btn:hover {
 @media (max-width: 820px) {
   .contact-area { gap: 20px; }
   .contact-form, { flex: 1 1 100%; min-width: 0; width: 100%; }
-  .contact-info { display: none; }
+  .contact-web { display: none; }
   .hero { padding: 48px 14px 28px; text-align: center; }
   .hero-sub { margin-left: 0; }
   .publication-image img { max-width: 92%; }
