@@ -82,11 +82,11 @@ nav {
 
 /* HERO (header) — distinct but warm background */
 .hero {
-  text-align:left; /* shift text left visually */
+  text-align:center; 
   padding:72px 40px 36px;
   /* hero surface a touch brighter than page, still warm */
-  background: linear-gradient(180deg, rgba(255,244,241,0.95), rgba(255,247,244,0.9));
-  border-bottom: 1px solid rgba(58,40,35,0.02);
+   background: rgba(255,141,161,0.96);
+   border-bottom: 1px solid rgba(58,40,35,0.02);
 }
 .hero-inner {
   max-width:1080px;
