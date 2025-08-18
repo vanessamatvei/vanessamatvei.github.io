@@ -326,7 +326,7 @@ button.action-btn:hover {
   position: relative;                    /* container for absolute canvas */
   overflow: hidden;                      /* keep petals inside footer */
   text-align: center;
-  padding: 40px 20px 90px;               /* larger bottom padding to avoid clipping */
+  padding: 30px 20px 40px;               /* larger bottom padding to avoid clipping */
   background: linear-gradient(180deg, rgba(255,249,247,1), rgba(255,246,244,0));
   border-top: 1px solid rgba(58,40,35,0.03);
   color: #6b534e;
