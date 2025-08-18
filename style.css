@@ -237,7 +237,7 @@ button.action-btn:hover {
 }
 .footer-content { position:relative; z-index:1; }
 .footer-signature img {
-  max-width:220px;
+  max-width:420px;
   margin:0 auto 15px;
   display:block;
   transition: transform 0.25s ease;
