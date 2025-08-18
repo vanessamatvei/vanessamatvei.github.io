@@ -324,10 +324,17 @@ button.action-btn:hover {
   position: relative;                    
   overflow: hidden;                      
   text-align: center;
-  padding: 20px 20px 40px;               
-  background: linear-gradient(180deg, rgba(255,249,247,1), rgba(255,246,244,0));
-  border-top: 1px solid rgba(58,40,35,0.03);
-  color: #6b534e;
+  padding: 20px 20px 40px;
+  background: linear-gradient(
+  180deg, 
+  #fff7f3 0%,       /* your current top color */
+  #ffe3d1 50%,      /* a gentle peachy-orange mid */
+  #ffd6b3 100%      /* warm orange at the bottom */);
+
+  /* background: linear-gradient(180deg, rgba(255,249,247,1), rgba(255,246,244,0));
+  border-top: 1px solid rgba(58,40,35,0.03); 
+  
+  color: #6b534e;*/
   font-size: 14px;
   margin-top: 0;
   box-sizing: border-box;
