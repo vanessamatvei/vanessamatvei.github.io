@@ -194,6 +194,8 @@ article:hover h2 { color: #ff6b81; }
 article a { color: #7d514a; text-decoration: none; font-weight: 700; transition: color 180ms ease; }
 article a:hover { color: #ff5268; }
 
+.article-note { text-align: right; font-size: 0.9em; color: #6b534e; }
+
 /* Authors line */
 .pub-authors {
   font-weight: 700;
