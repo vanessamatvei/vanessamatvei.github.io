@@ -321,3 +321,13 @@ a:focus, .nav-btn:focus, .contact-form button:focus {
   outline: 3px solid rgba(255,210,205,0.45);
   outline-offset: 3px;
 }
+
+
+//
+
+p {
+  display: block;
+  margin-bottom: 1em;  /* adds spacing between paragraphs */
+  line-height: 1.6;    /* improves readability */
+}
+
