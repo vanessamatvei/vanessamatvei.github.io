@@ -404,7 +404,6 @@ p { display:block; margin-bottom:1em; line-height:1.6; }
 .about-signature img {
   max-width: 180px; /* smaller */
   height: auto;
-  filter: invert();  /* optional, matches theme */
   transition: transform 0.25s ease; /* smooth hover */
 }
 .about-signature img:hover {
@@ -414,14 +413,20 @@ p { display:block; margin-bottom:1em; line-height:1.6; }
 /* Footer signature */
 .footer-signature {
   text-align: center;
-  margin-bottom: 20px; /* slightly more breathing room */
+  margin-bottom: 30px; /* more breathing room above footer */
 }
 .footer-signature img {
-  max-width: 280px; /* bigger in footer */
+  max-width: 420px; /* bigger, almost as long as copyright text */
   height: auto;
-  filter: invert();
   transition: transform 0.25s ease; /* smooth hover */
+  display: block;
+  margin: 0 auto; /* center horizontally */
 }
 .footer-signature img:hover {
   transform: scale(1.04); /* subtle interactive feel */
+}
+
+/* Extra spacing between footer and middle content */
+.site-footer {
+  padding-top: 40px; /* add more top padding */
 }
