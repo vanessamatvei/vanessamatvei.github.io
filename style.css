@@ -85,7 +85,7 @@ nav {
   text-align:center; 
   padding:72px 40px 36px;
   /* hero surface a touch brighter than page, still warm */
-   background: rgba(255,141,161,0.96);
+   background: rgba(244,182,206,0.96);
    border-bottom: 1px solid rgba(58,40,35,0.02);
 }
 .hero-inner {
