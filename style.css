@@ -73,12 +73,12 @@ nav {
   nav.show .nav-btn { display:block; }
 }
 
-/* HERO (header) — softer, warmer color tuned to site palette */
+/* HERO (header) — slightly richer, warmer pink tuned to site palette
+   darker than before but still delicate and cohesive */
 .hero {
   text-align:left;
   padding:72px 40px 36px;
-  /* warmer and more delicate than before (no pink overtone) */
-  background: linear-gradient(180deg, rgba(255,246,240,0.95), rgba(255,247,244,0.92));
+  background: linear-gradient(180deg, rgba(255,235,239,0.98), rgba(255,247,244,0.95));
   border-bottom: 1px solid rgba(58,40,35,0.02);
 }
 .hero-inner {
@@ -107,20 +107,56 @@ article {
   border-radius: 12px;
   max-width:920px;              /* wider so content breathes more */
   box-shadow: 0 10px 32px rgba(55,40,35,0.06);
-  transition: transform 260ms ease, box-shadow 260ms ease;
+  transition: transform 260ms cubic-bezier(.2,.9,.25,1), box-shadow 260ms ease;
   border: 1px solid rgba(58,40,35,0.03);
+  transform-origin: center top;
+  will-change: transform, box-shadow;
 }
-article:hover { transform: translateY(-6px); box-shadow: 0 16px 46px rgba(55,40,35,0.10); }
+/* stronger, tasteful hover growth so cards "lift" and slightly enlarge */
+article:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 22px 60px rgba(55,40,35,0.12);
+  z-index: 10;
+}
 
-/* Titles inside article */
+/* Titles inside article - more prominent and slightly larger */
 article h1, article h2 {
   font-family: 'Playfair Display', serif;
   font-weight:700;
-  color:#4b3a36;
-  margin-bottom:10px;
+  color:#3f2e2d; /* a touch darker for stronger contrast */
+  margin-bottom:8px;
 }
-article h1 { font-size:1.4rem; }
-article h2 { font-size:1.12rem; }
+article h1 {
+  font-size: clamp(1.35rem, 2.2vw, 1.9rem); /* larger and responsive */
+  line-height:1.08;
+  letter-spacing: -0.01em;
+  margin-bottom:10px;
+  position: relative;
+  padding-bottom: 6px;
+}
+/* subtle rule/line between title and introduction (decorative) */
+article h1::after {
+  content: "";
+  display: block;
+  width: 56px;
+  height: 2px;
+  border-radius: 2px;
+  background: rgba(233,210,206,0.95); /* warm muted accent */
+  margin-top:10px;
+}
+/* If some articles use h2 as top title, keep rule for h2 as well */
+article h2::after {
+  content: "";
+  display:block;
+  width:48px;
+  height:2px;
+  border-radius:2px;
+  background: rgba(233,210,206,0.95);
+  margin-top:8px;
+}
+
+/* paragraph heading spacing: keep a little more space between the title-rule and the intro paragraph */
+article p:first-of-type { margin-top:14px; }
 
 /* Authors line */
 .pub-authors {
