@@ -388,10 +388,11 @@ p { display:block; margin-bottom:1em; line-height:1.6; }
   .signature img,
   .about-signature img,
   .footer-signature img {
-    max-width: 94%;  /* scale to most of screen width */
-    padding-right: 0; /* remove extra padding */
-    margin: 0 auto;   /* center on mobile */
-    display: block;
+    max-width: 94%;       /* scale to most of screen width */
+    display: block;       /* ensures it’s a block element */
+    margin-left: auto;    /* centers horizontally */
+    margin-right: auto;   /* centers horizontally */
+    padding: 0;           /* remove padding that might shift it */
   }
 }
 
