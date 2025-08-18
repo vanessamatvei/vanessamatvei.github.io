@@ -80,14 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const fctx = fcanvas.getContext('2d');
 
     // handle high-DPI displays
-   function resizeCanvas() {
-     const dpr = window.devicePixelRatio || 1;
-     fcanvas.width = footer.scrollWidth * dpr;
-     fcanvas.height = footer.scrollHeight * dpr;
-     fcanvas.style.width = footer.scrollWidth + 'px';
-     fcanvas.style.height = footer.scrollHeight + 'px';
-     fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-   }
+    function resizeCanvas() {
+      const dpr = window.devicePixelRatio || 1;
+      fcanvas.width = footer.scrollWidth * dpr;
+      fcanvas.height = footer.scrollHeight * dpr;
+      fcanvas.style.width = footer.scrollWidth + 'px';
+      fcanvas.style.height = footer.scrollHeight + 'px';
+      fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
 
     let FW = 100;
     let FH = 40;
