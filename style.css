@@ -384,12 +384,22 @@ p { display:block; margin-bottom:1em; line-height:1.6; }
 
 //signature
 .signature {
-  text-align: center; /* centers image horizontally */
-  margin-bottom: 20px; /* space before footer */
+  text-align: right; 
+  margin-right: 30px; /* padding from the edge */
+  margin-bottom: 20px;
 }
 
 .signature img {
-  max-width: 200px; /* scale down if needed */
+  max-width: 400px; /* bigger on desktop */
   height: auto;
-  padding-right: 20px; /* if you prefer it shifted slightly */
+  padding-right: 20px; 
+  filter: invert(); /* matches your friend's style */
+}
+
+/* Mobile responsiveness */
+@media screen and (max-width: 479px) {
+  .signature img {
+    max-width: 94%; /* takes most of screen width */
+    padding-right: 0; /* remove extra padding on small screens */
+  }
 }
