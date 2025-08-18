@@ -1,47 +1,71 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vanessa Matvei | Publications</title>  
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Vanessa Matvei | Publications</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Background canvas for petals -->
-  <canvas id="bg-canvas"></canvas>
+  <!-- global canvas (scripts control petals only inside footer) -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <nav>
-      <a href="index.html" class="nav-btn">About</a>        
-      <a href="publications.html" class="nav-btn nav-active">Publications</a>      
-      <a href="articles.html" class="nav-btn">Articles</a>
-      <a href="contact.html" class="nav-btn">Contact</a>
+    <a href="index.html" class="nav-btn">About</a>
+    <a href="publications.html" class="nav-btn nav-active">Publications</a>
+    <a href="articles.html" class="nav-btn">Articles</a>
+    <a href="contact.html" class="nav-btn">Contact</a>
   </nav>
 
   <header class="hero">
-    <h1 class="hero-title">Publications</h1>
-    <h5>* = senior author</h5>
+    <div class="hero-inner container">
+      <h1 class="hero-title">Publications</h1>
+      <p class="hero-sub" style="margin-top:6px;">* = senior author</p>
+    </div>
   </header>
 
-  <main class="panel reveal">
-    <section id="publications">
-      <article>
-        <h2><b><u>QIANets: Quantum-Integrated Adaptive Networks for Reduced Latency and Improved Inference Times in CNN Models</u></b></h2>
-        <p><strong>Zhumazhan Balapanov, Vanessa Matvei, Olivia Holmberg, Edward Magongo, Jonathan Pei*, Kevin Zhu*</strong></p>
+  <main class="panel reveal container" id="main">
+    <section id="publications" aria-labelledby="pub-heading">
+      <h2 id="pub-heading" style="display:none">Publications</h2>
 
-        <div class="publication-image">
-          <img src="https://i.imgur.com/xC4hgIQ.png" alt="QIANets figure">
+      <article class="reveal" role="article" aria-labelledby="qianets-title">
+        <h1 id="qianets-title" style="font-family:'Playfair Display', serif; font-size:1.25rem; margin-bottom:8px;">
+          <strong><u>QIANets: Quantum-Integrated Adaptive Networks for Reduced Latency and Improved Inference Times in CNN Models</u></strong>
+        </h1>
+
+        <span class="pub-authors" aria-label="Authors">
+          <strong>Zhumazhan Balapanov, Vanessa Matvei, Olivia Holmberg, Edward Magongo, Jonathan Pei*, Kevin Zhu*</strong>
+        </span>
+
+        <!-- centered, responsive image with spacing -->
+        <div class="publication-image" role="img" aria-label="QIANets illustrative figure">
+          <img src="https://i.imgur.com/xC4hgIQ.png" alt="Illustrative figure for QIANets" loading="lazy" />
         </div>
 
-        <p>Convolutional neural networks (CNNs) have made significant advances in computer vision tasks, yet their high inference times and latency 
-      often limit real-world applicability. While model compression techniques have gained popularity as solutions, they often overlook the critical 
-      balance between low latency and uncompromised accuracy. By harnessing quantum-inspired pruning, tensor decomposition and annealing-based matrix
-      factorization – three quantum-inspired concepts – we introduce QIANets: a novel approach of redesigning the traditional GoogLeNet, DenseNet, 
-      and ResNet-18 model architectures to process more parameters and computations whilst maintaining low inference time. 
-      </p>
-        <p><a href="https://arxiv.org/pdf/2410.10318" target="_blank" class="preprint-btn">Preprint PDF</a></p>
+        <p>
+          Convolutional neural networks (CNNs) have made significant advances in computer vision tasks, yet their high inference times and latency
+          often limit real-world applicability. While model compression techniques have gained popularity as solutions, they often overlook the critical
+          balance between low latency and uncompromised accuracy. By harnessing quantum-inspired pruning, tensor decomposition and annealing-based matrix
+          factorization – three quantum-inspired concepts – we introduce QIANets: a novel approach of redesigning the traditional GoogLeNet, DenseNet,
+          and ResNet-18 model architectures to process more parameters and computations whilst maintaining low inference time.
+        </p>
+
+        <p>
+          <a href="https://arxiv.org/pdf/2410.10318" target="_blank" class="preprint-btn" rel="noopener">Preprint PDF</a>
+        </p>
+
         <p><em>Proceedings at the 38th Conference on Neural Information Processing Systems, Machine Learning & Compression Workshop</em></p>
       </article>
+
+      <!-- you can duplicate <article> blocks here for more publications -->
     </section>
   </main>
 
@@ -49,7 +73,8 @@
   <footer class="site-footer" role="contentinfo">
     <div class="container">
       <div class="copyright">Copyright © 2025 Vanessa Matvei — All rights reserved.</div>
-      <div style="font-size:13px; color:#6b534e; margin-top:4px;">Follow: 
+      <div style="font-size:13px; color:#6b534e; margin-top:6px;">
+        Follow:
         <a href="https://github.com/vanessamatvei" target="_blank" rel="noopener" style="color:#6b534e; text-decoration:underline;">GitHub</a>
         · <a href="https://www.linkedin.com/in/vanessa-matvei-a2935930b/" target="_blank" rel="noopener" style="color:#6b534e; text-decoration:underline;">LinkedIn</a>
         · <a href="https://instagram.com/vanessa.mtvv" target="_blank" rel="noopener" style="color:#6b534e; text-decoration:underline;">Instagram</a>
@@ -61,3 +86,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+```
