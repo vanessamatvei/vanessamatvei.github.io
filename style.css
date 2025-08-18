@@ -423,3 +423,16 @@ p { display:block; margin-bottom:1em; line-height:1.6; }
   padding-bottom: 20px; /* breathing room at bottom */
   text-align: center;
 }
+
+.footer-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+.site-footer > * {
+  position: relative;
+  z-index: 2;
+}
+
