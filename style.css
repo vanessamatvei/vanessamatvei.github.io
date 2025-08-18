@@ -383,23 +383,45 @@ p { display:block; margin-bottom:1em; line-height:1.6; }
 
 
 //signature
-.signature {
-  text-align: right; 
-  margin-right: 30px; /* padding from the edge */
+/* Mobile responsiveness for all signatures */
+@media screen and (max-width: 479px) {
+  .signature img,
+  .about-signature img,
+  .footer-signature img {
+    max-width: 94%;  /* scale to most of screen width */
+    padding-right: 0; /* remove extra padding */
+    margin: 0 auto;   /* center on mobile */
+    display: block;
+  }
+}
+
+/* About section signature */
+.about-signature {
+  text-align: right;
+  margin-top: 10px;
   margin-bottom: 20px;
 }
-
-.signature img {
-  max-width: 400px; /* bigger on desktop */
+.about-signature img {
+  max-width: 180px; /* smaller */
   height: auto;
-  padding-right: 20px; 
-  filter: invert(); /* matches your friend's style */
+  filter: invert();  /* optional, matches theme */
+  transition: transform 0.25s ease; /* smooth hover */
+}
+.about-signature img:hover {
+  transform: scale(1.03); /* subtle hover growth */
 }
 
-/* Mobile responsiveness */
-@media screen and (max-width: 479px) {
-  .signature img {
-    max-width: 94%; /* takes most of screen width */
-    padding-right: 0; /* remove extra padding on small screens */
-  }
+/* Footer signature */
+.footer-signature {
+  text-align: center;
+  margin-bottom: 20px; /* slightly more breathing room */
+}
+.footer-signature img {
+  max-width: 280px; /* bigger in footer */
+  height: auto;
+  filter: invert();
+  transition: transform 0.25s ease; /* smooth hover */
+}
+.footer-signature img:hover {
+  transform: scale(1.04); /* subtle interactive feel */
 }
