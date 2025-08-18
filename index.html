@@ -1,62 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Vanessa Matvei | About</title>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-</head>
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
 <body>
-  <!-- Background canvas for subtle flowing animation -->
-  <canvas id="bg-canvas"></canvas>
+  <!-- (global) background canvas - footer-only petals are controlled by script.js -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <nav>
-      <a href="index.html" class="nav-btn nav-active">About</a>        
-      <a href="publications.html" class="nav-btn">Publications</a>      
-      <a href="articles.html" class="nav-btn">Articles</a>
-      <a href="contact.html" class="nav-btn">Contact</a>
+    <a href="index.html" class="nav-btn nav-active">About</a>
+    <a href="publications.html" class="nav-btn">Publications</a>
+    <a href="articles.html" class="nav-btn">Articles</a>
+    <a href="contact.html" class="nav-btn">Contact</a>
   </nav>
 
   <header class="hero">
-    <h1 class="hero-title">Vanessa Matvei</h1>
-    <p class="hero-sub">High-School Researcher • Creative Technologist • Athlete</p>
+    <div class="hero-inner container">
+      <h1 class="hero-title">Vanessa Matvei</h1>
+      <p class="hero-sub">High-school researcher · creative technologist · athlete</p>
+    </div>
   </header>
 
-  <main>
-    <section id="about" class="panel reveal">
-      <h2>About</h2>
+  <main class="panel reveal container">
+    <section id="about" class="about-panel">
       <div class="about-content">
         <div class="about-text">
+          <h2 style="font-family:'Playfair Display', serif; margin-bottom:12px;">About</h2>
+
           <p>
-            I’ve always been pulled toward the places where worlds meet—where art, science, and technology cross paths to create something surprising. 
-            For me, curiosity is the common thread. It’s Da Vinci’s <i>saper vedere</i> (“knowing how to see”), Ada Lovelace’s “poetical science,” and 
+            I’ve always been pulled toward the places where worlds meet—where art, science, and technology cross paths to create something surprising.
+            For me, curiosity is the common thread. It’s Da Vinci’s <i>saper vedere</i> (“knowing how to see”), Ada Lovelace’s “poetical science,” and
             Einstein’s claim that curiosity matters more than knowledge itself.
           </p>
-          
+
           <p>
-            I don’t believe in being just “specialized.” Everything connects if you look closely enough: 
-            algorithms mirror nature’s patterns, creativity shapes mathematics, and history sparks innovation. 
-            Tracing those threads is what my work revolves around—<u>creating my life’s web.</u>
+            I don’t believe in being just “specialized.” Everything connects if you look closely enough:
+            algorithms mirror nature’s patterns, creativity shapes mathematics, and history sparks innovation.
+            Tracing those threads is what my work revolves around — <u>creating my life’s web.</u>
           </p>
-          
+
           <p>
-            Things that inspire me span both the whimsical and the infinite: classic Disney animations, the quiet stretch of a night sky, 
-            the vastness of mountains, forests, and sea. I’m energized by movement and discipline in equal measure: running, swimming, and tennis keep me active, 
-            while the works of Monet, Klimt, Van Gogh, and the artistry of code keep my mind engaged.
+            Things that inspire me span both the whimsical and the infinite: classic Disney animations, the quiet stretch of a night sky,
+            the vastness of mountains, forests, and sea. I’m energized by movement and discipline in equal measure: running, swimming, and tennis keep me active,
+            while the works of Monet, Klimt, Van Gogh, and the artistry of code keep my mind engaged.
           </p>
-          
+
           <p>
             As for what I’m chasing? Greatness in the sense of becoming the fullest, most curious version of myself. Welcome to my portfolio.
           </p>
         </div>
 
-        <div class="about-image">
-          <img 
-            src="https://i.imgur.com/jl7STfv.png" 
-            alt="Vanessa Matvei Image"
+        <div class="about-image" aria-hidden="false">
+          <img
+            src="https://i.imgur.com/jl7STfv.png"
+            alt="Vanessa Matvei portrait"
             loading="lazy"
+            width="400"
+            height="400"
           />
         </div>
       </div>
@@ -67,7 +77,7 @@
   <footer class="site-footer" role="contentinfo">
     <div class="container">
       <div class="copyright">Copyright © 2025 Vanessa Matvei — All rights reserved.</div>
-      <div style="font-size:13px; color:#6b534e; margin-top:4px;">Follow: 
+      <div style="font-size:13px; color:#6b534e; margin-top:4px;">Follow:
         <a href="https://github.com/vanessamatvei" target="_blank" rel="noopener" style="color:#6b534e; text-decoration:underline;">GitHub</a>
         · <a href="https://www.linkedin.com/in/vanessa-matvei-a2935930b/" target="_blank" rel="noopener" style="color:#6b534e; text-decoration:underline;">LinkedIn</a>
         · <a href="https://instagram.com/vanessa.mtvv" target="_blank" rel="noopener" style="color:#6b534e; text-decoration:underline;">Instagram</a>
