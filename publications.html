@@ -5,44 +5,50 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Vanessa Matvei | Publications</title>  
   <link rel="stylesheet" type="text/css" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
+  <!-- Background canvas for petals -->
+  <canvas id="bg-canvas"></canvas>
+
   <nav>
-      <a href="index.html" id="access" ><button> About </button></a>        
-      <a href="publications.html"><button> Publications </button></a>      
-      <a href="articles.html"><button> Articles </button></a>
-      <a href="contact.html"><button> Contact </button></a>
+      <a href="index.html" class="nav-btn">About</a>        
+      <a href="publications.html" class="nav-btn nav-active">Publications</a>      
+      <a href="articles.html" class="nav-btn">Articles</a>
+      <a href="contact.html" class="nav-btn">Contact</a>
   </nav>
 
-  <header>
-    <h1>Publications</h1>
+  <header class="hero">
+    <h1 class="hero-title">Publications</h1>
     <h5>* = senior author</h5>
   </header>
 
-  <section id="publications">
-  <article>
-    <h1><b><u>QIANets: Quantum-Integrated Adaptive Networks for Reduced Latency and Improved Inference Times in CNN Models</u></b></h1>
-    <p><strong> Zhumazhan Balapanov, Vanessa Matvei, Olivia Holmberg, Edward Magongo, Jonathan Pei*, Kevin Zhu*</strong></p>
-    
-    <!-- centered, responsive image -->
-    <div class="publication-image">
-      <img src="https://i.imgur.com/xC4hgIQ.png" alt="QIANets figure">
-    </div>
+  <main class="panel reveal">
+    <section id="publications">
+      <article>
+        <h2><b><u>QIANets: Quantum-Integrated Adaptive Networks for Reduced Latency and Improved Inference Times in CNN Models</u></b></h2>
+        <p><strong>Zhumazhan Balapanov, Vanessa Matvei, Olivia Holmberg, Edward Magongo, Jonathan Pei*, Kevin Zhu*</strong></p>
 
-    <p>Convolutional neural networks (CNNs) have made significant advances in computer vision tasks, yet their high inference times and latency 
-      often limit real-world applicability. While model compression techniques have gained popularity as solutions, they often overlook the critical 
-      balance between low latency and uncompromised accuracy. By harnessing quantum-inspired pruning, tensor decomposition and annealing-based matrix
-      factorization – three quantum-inspired concepts – we introduce QIANets: a novel approach of redesigning the traditional GoogLeNet, DenseNet, 
-      and ResNet-18 model architectures to process more parameters and computations whilst maintaining low inference time. 
-    </p>
-    <p><a href="https://arxiv.org/pdf/2410.10318" target="_blank">Preprint PDF</a></p>
-    <p><em>Proceedings at the 38th Conference on Neural Information Processing Systems, Machine Learning & Compression Workshop</em></p>
-  </article>
-</section>
+        <div class="publication-image">
+          <img src="https://i.imgur.com/xC4hgIQ.png" alt="QIANets figure">
+        </div>
 
+        <p>Convolutional neural networks (CNNs) have made significant advances in computer vision tasks, yet their high inference times and latency 
+        often limit real-world applicability. While model compression techniques have gained popularity as solutions, they often overlook the critical 
+        balance between low latency and uncompromised accuracy. By harnessing quantum-inspired pruning, tensor decomposition and annealing-based matrix
+        factorization – three quantum-inspired concepts – we introduce QIANets: a novel approach of redesigning the traditional GoogLeNet, DenseNet, 
+        and ResNet-18 model architectures to process more parameters and computations whilst maintaining low inference time.</p>
+
+        <p><a href="https://arxiv.org/pdf/2410.10318" target="_blank" class="preprint-btn">Preprint PDF</a></p>
+        <p><em>Proceedings at the 38th Conference on Neural Information Processing Systems, Machine Learning & Compression Workshop</em></p>
+      </article>
+    </section>
+  </main>
 
   <footer>
-    <p>Copyright © 2025 Vanessa Matvei - All rights reserved.</p>
+    <p>Copyright © 2025 Vanessa Matvei — All rights reserved.</p>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
