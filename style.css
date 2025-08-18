@@ -395,38 +395,30 @@ p { display:block; margin-bottom:1em; line-height:1.6; }
   }
 }
 
-/* About section signature */
-.about-signature {
-  text-align: right;
-  margin-top: 10px;
-  margin-bottom: 20px;
-}
-.about-signature img {
-  max-width: 180px; /* smaller */
-  height: auto;
-  transition: transform 0.25s ease; /* smooth hover */
-}
-.about-signature img:hover {
-  transform: scale(1.03); /* subtle hover growth */
+//* Footer container spacing */
+.site-footer .container > * {
+  margin: 8px 0; /* equal spacing between signature, copyright, and follow links */
 }
 
 /* Footer signature */
 .footer-signature {
   text-align: center;
-  margin-bottom: 30px; /* more breathing room above footer */
+  margin: 0; /* remove extra bottom margin */
 }
 .footer-signature img {
-  max-width: 420px; /* bigger, almost as long as copyright text */
+  max-width: 420px; /* keeps it big */
   height: auto;
-  transition: transform 0.25s ease; /* smooth hover */
   display: block;
   margin: 0 auto; /* center horizontally */
+  transition: transform 0.25s ease;
 }
 .footer-signature img:hover {
-  transform: scale(1.04); /* subtle interactive feel */
+  transform: scale(1.04);
 }
 
-/* Extra spacing between footer and middle content */
+/* Footer itself */
 .site-footer {
-  padding-top: 40px; /* add more top padding */
+  padding-top: 20px; /* space between middle content and footer */
+  padding-bottom: 20px; /* breathing room at bottom */
+  text-align: center;
 }
