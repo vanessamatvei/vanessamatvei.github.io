@@ -17,7 +17,7 @@ html, body {
 }
 img { max-width:100%; display:block; }
 
-/* NOTE: the global background canvas is kept but does not draw petals */
+/* NOTE: the global background canvas is kept but does not draw petals (footer-only animation) */
 #bg-canvas {
   position: fixed;
   top:0;
@@ -152,9 +152,13 @@ article h2 { font-size:1.12rem; }
 /* Abstract / paragraph style */
 article p { color:#4f3d38; margin-bottom:16px; line-height:1.72; }
 
-/* Links + preprint button */
+/* Links + shared action button (used by preprint links and contact submit) */
 a { color: #7d514a; text-decoration: underline; }
-.preprint-btn {
+
+/* Create a single action style so both "Preprint" links and the contact button match exactly */
+.preprint-btn,
+.contact-form button,
+button.action-btn {
   display:inline-block;
   background:#ff6b81;
   color:white;
@@ -162,10 +166,20 @@ a { color: #7d514a; text-decoration: underline; }
   border-radius:12px;
   text-decoration:none;
   font-weight:700;
+  font-family: inherit;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
   margin-top:6px;
-  transition: transform 180ms ease, background 180ms ease;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 160ms ease;
 }
-.preprint-btn:hover { transform: translateY(-3px); background:#ff5268; }
+.preprint-btn:hover,
+.contact-form button:hover,
+button.action-btn:hover {
+  transform: translateY(-3px);
+  background:#ff5268;
+  box-shadow: 0 8px 18px rgba(255,82,104,0.12);
+}
 
 /* About layout - nudge text left and image more to right */
 .about-content {
@@ -230,17 +244,6 @@ a { color: #7d514a; text-decoration: underline; }
   background: #fff;
 }
 .contact-form textarea { min-height:140px; resize:vertical; }
-.contact-form button {
-  background: #e9d2ce;
-  color:#3a2c2b;
-  padding:10px 16px;
-  border-radius:10px;
-  border: none;
-  font-weight:700;
-  cursor:pointer;
-  transition: transform 160ms ease, box-shadow 160ms ease;
-}
-.contact-form button:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(55,40,35,0.08); }
 
 /* Alternate contact column: email + social icons */
 .contact-info {
@@ -295,8 +298,8 @@ a { color: #7d514a; text-decoration: underline; }
   display:block;
   max-width:900px;
   margin: 0 auto;
-  padding-left:12px;      /* small left padding so text isn't flush */
-  padding-right:12px;
+  padding-left:18px;      /* small left padding so text isn't flush */
+  padding-right:18px;
   margin-bottom:18px;
 }
 
@@ -318,7 +321,7 @@ a { color: #7d514a; text-decoration: underline; }
 }
 
 /* Accessibility: focus states */
-a:focus, .nav-btn:focus, .contact-form button:focus {
+a:focus, .nav-btn:focus, .contact-form button:focus, .preprint-btn:focus {
   outline: 3px solid rgba(255,210,205,0.45);
   outline-offset: 3px;
 }
