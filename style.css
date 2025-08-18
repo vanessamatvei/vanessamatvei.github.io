@@ -324,7 +324,7 @@ button.action-btn:hover {
   position: relative;                    
   overflow: hidden;                      
   text-align: center;
-  padding: 30px 20px 40px;               
+  padding: 20px 20px 40px;               
   background: linear-gradient(180deg, rgba(255,249,247,1), rgba(255,246,244,0));
   border-top: 1px solid rgba(58,40,35,0.03);
   color: #6b534e;
