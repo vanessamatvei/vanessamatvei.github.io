@@ -8,7 +8,6 @@
   padding: 0;
 }
 
-
 img {
   max-width: 100%;
   display: block;
@@ -88,7 +87,7 @@ nav {
   nav.show .nav-btn { display: block; }
 }
 
-/* HERO (header) — slightly richer, warmer pink tuned to site palette */
+/* HERO (header) */
 .hero {
   text-align: left;
   padding: 72px 40px 36px;
@@ -294,3 +293,54 @@ button.action-btn:hover {
   text-decoration: none;
 }
 .social-icons img { width: 20px; height: 20px; object-fit: contain; opacity: 0.95; }
+
+/* --- FOOTER STYLING --- */
+.site-footer {
+  text-align: center;
+  margin: 60px 0 40px; /* top and bottom spacing */
+  padding: 40px 20px;
+  position: relative;
+  overflow: hidden; /* for animation */
+  background: linear-gradient(180deg, rgba(255,249,247,1), rgba(255,246,244,0.0));
+}
+
+/* Footer content layout: stack vertically, equal widths */
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+/* Signature image */
+.footer-signature img {
+  max-width: 420px;
+  width: 100%;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Footer links & copyright full width */
+.footer-links,
+.copyright {
+  width: 100%;
+  text-align: center;
+  font-size: 13px;
+}
+
+/* Responsive mobile adjustments */
+@media screen and (max-width: 479px) {
+  .footer-signature img {
+    max-width: 94%;
+  }
+  .footer-content {
+    gap: 14px;
+  }
+}
+
+/* Footer animation */
+@keyframes footer-petal-animation {
+  0% { transform: translateY(0); opacity: 0.6; }
+  50% { transform: translateY(-12
