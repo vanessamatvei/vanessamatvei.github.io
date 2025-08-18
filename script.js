@@ -57,162 +57,173 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   /*********** FOOTER-ONLY PETALS ANIMATION (retina-aware, robust) ***********/
-  const footer = document.querySelector('.site-footer');
-  if (footer) {
-    // reuse existing canvas if present, otherwise create one
-    let fcanvas = footer.querySelector('.footer-canvas');
-    if (!fcanvas) {
-      fcanvas = document.createElement('canvas');
-      fcanvas.className = 'footer-canvas';
-      footer.appendChild(fcanvas);
-    }
-    // ensure styling is applied
-    Object.assign(fcanvas.style, {
-      position: 'absolute',
-      left: '0',
-      top: '0',
-      width: '100%',
-      height: '100%',
-      pointerEvents: 'none',
-      zIndex: 0,
-    });
+const footer = document.querySelector('.site-footer');
+if (footer) {
+  // reuse existing canvas if present, otherwise create one
+  let fcanvas = footer.querySelector('.footer-canvas');
+  if (!fcanvas) {
+    fcanvas = document.createElement('canvas');
+    fcanvas.className = 'footer-canvas';
+    footer.insertBefore(fcanvas, footer.firstChild);
+  }
 
-    // make sure footer content sits above canvas (but don't touch any canvas that was preexisting)
-    Array.from(footer.children).forEach(ch => {
-      if (ch === fcanvas) return;                // don't move the canvas
-      ch.style.position = ch.style.position || 'relative';
-      ch.style.zIndex = 2;
-    });
+  // ensure canvas style (explicit)
+  Object.assign(fcanvas.style, {
+    position: 'absolute',
+    left: '0',
+    top: '0',
+    width: '100%',
+    height: '100%',
+    pointerEvents: 'none',
+    zIndex: 0,
+  });
 
-    const fctx = fcanvas.getContext('2d');
+  // ensure content sits above canvas (do not alter canvas's z)
+  Array.from(footer.children).forEach(ch => {
+    if (ch === fcanvas) return;
+    if (!ch.style.position) ch.style.position = 'relative';
+    ch.style.zIndex = 2;
+  });
 
-    // handle high-DPI displays using actual CSS size (getBoundingClientRect)
-    function resizeCanvas() {
-      const dpr = window.devicePixelRatio || 1;
+  const fctx = fcanvas.getContext('2d');
+
+  // size canvas using CSS pixels and devicePixelRatio (avoid clipping)
+  function resizeCanvas() {
+    const dpr = Math.max(1, window.devicePixelRatio || 1);
+    const rect = footer.getBoundingClientRect();
+    const cssW = Math.max(1, rect.width);
+    const cssH = Math.max(1, rect.height);
+    // round to avoid subpixel weirdness
+    fcanvas.width = Math.round(cssW * dpr);
+    fcanvas.height = Math.round(cssH * dpr);
+    fcanvas.style.width = cssW + 'px';
+    fcanvas.style.height = cssH + 'px';
+    // scale drawing context to match CSS pixels
+    fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+
+  // petal system (keeps your original behavior)
+  let FW = 100, FH = 40;
+  class FooterPetal {
+    constructor(initial = true) { this.reset(initial); }
+    reset(initial = false) {
       const rect = footer.getBoundingClientRect();
-      // avoid zero sizes
-      const cssW = Math.max(1, rect.width);
-      const cssH = Math.max(1, rect.height);
-      fcanvas.width = Math.round(cssW * dpr);
-      fcanvas.height = Math.round(cssH * dpr);
-      fcanvas.style.width = cssW + 'px';
-      fcanvas.style.height = cssH + 'px';
-      fctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      FW = Math.max(1, rect.width); FH = Math.max(1, rect.height);
+      this.x = Math.random() * FW;
+      this.y = initial ? Math.random() * FH : -10 - Math.random() * 60;
+      this.size = 3 + Math.random() * 6;
+      this.speedX = (Math.random() - 0.5) * 0.6;
+      this.speedY = 0.4 + Math.random() * 0.9;
+      this.angle = Math.random() * Math.PI * 2;
+      this.spin = (Math.random() - 0.5) * 0.04;
+      this.h = 340 + Math.random() * 12;
+      this.s = 62 + Math.random() * 8;
+      this.l = 76 - Math.random() * 8;
+      this.alpha = 0.45 + Math.random() * 0.35;
+      this.wobble = 0.08 + Math.random() * 0.18;
     }
-
-    // petal geometry (kept similar to your code)
-    let FW = 100, FH = 40;
-    class FooterPetal {
-      constructor(initial = true) { this.reset(initial); }
-      reset(initial = false) {
-        const rect = footer.getBoundingClientRect();
-        FW = rect.width; FH = rect.height;
-        this.x = Math.random() * FW;
-        this.y = initial ? Math.random() * FH : -10 - Math.random() * 60;
-        this.size = 3 + Math.random() * 6;
-        this.speedX = (Math.random() - 0.5) * 0.6;
-        this.speedY = 0.4 + Math.random() * 0.9;
-        this.angle = Math.random() * Math.PI * 2;
-        this.spin = (Math.random() - 0.5) * 0.04;
-        this.h = 340 + Math.random() * 12;
-        this.s = 62 + Math.random() * 8;
-        this.l = 76 - Math.random() * 8;
-        this.alpha = 0.45 + Math.random() * 0.35;
-        this.wobble = 0.08 + Math.random() * 0.18;
-      }
-      draw(ctx) {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.beginPath();
-        ctx.moveTo(0, -this.size);
-        ctx.bezierCurveTo(this.size / 2, -this.size / 2, this.size / 2, this.size / 2, 0, this.size);
-        ctx.bezierCurveTo(-this.size / 2, this.size / 2, -this.size / 2, -this.size / 2, 0, -this.size);
-        ctx.fillStyle = `hsla(${this.h}, ${this.s}%, ${this.l}%, ${this.alpha})`;
-        ctx.fill();
-        ctx.restore();
-      }
-      update(mouseVelX = 0, mouseVelY = 0) {
-        this.x += this.speedX + mouseVelX * (Math.random() * 3);
-        this.y += this.speedY + mouseVelY * (Math.random() * 2);
-        this.angle += this.spin;
-        this.x += Math.sin(this.y * this.wobble + this.size) * 0.4;
-        if (this.y > FH + 20 || this.x < -40 || this.x > FW + 40) this.reset(false);
-      }
+    draw(ctx) {
+      ctx.save();
+      ctx.translate(this.x, this.y);
+      ctx.rotate(this.angle);
+      ctx.beginPath();
+      ctx.moveTo(0, -this.size);
+      ctx.bezierCurveTo(this.size / 2, -this.size / 2, this.size / 2, this.size / 2, 0, this.size);
+      ctx.bezierCurveTo(-this.size / 2, this.size / 2, -this.size / 2, -this.size / 2, 0, -this.size);
+      ctx.fillStyle = `hsla(${this.h}, ${this.s}%, ${this.l}%, ${this.alpha})`;
+      ctx.fill();
+      ctx.restore();
     }
-
-    let fpetals = [];
-    function rebuildPetals() {
-      const rect = footer.getBoundingClientRect();
-      FW = Math.max(1, rect.width);
-      FH = Math.max(1, rect.height);
-      const count = Math.max(10, Math.floor((FW * FH) / 12000));
-      fpetals = new Array(count).fill().map(() => new FooterPetal(true));
+    update(mouseVelX = 0, mouseVelY = 0) {
+      this.x += this.speedX + mouseVelX * (Math.random() * 3);
+      this.y += this.speedY + mouseVelY * (Math.random() * 2);
+      this.angle += this.spin;
+      this.x += Math.sin(this.y * this.wobble + this.size) * 0.4;
+      if (this.y > FH + 20 || this.x < -40 || this.x > FW + 40) this.reset(false);
     }
+  }
 
-    // small mouse velocity tracker relative to footer
-    const mouse = { x: 0, y: 0, lastX: 0, lastY: 0 };
-    window.addEventListener('mousemove', (e) => {
-      const rect = footer.getBoundingClientRect();
-      mouse.x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
-      mouse.y = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
-    });
+  let fpetals = [];
+  function rebuildPetals() {
+    const rect = footer.getBoundingClientRect();
+    FW = Math.max(1, rect.width);
+    FH = Math.max(1, rect.height);
+    const count = Math.max(10, Math.floor((FW * FH) / 12000));
+    fpetals = new Array(count).fill().map(() => new FooterPetal(true));
+  }
 
-    function onResize() {
-      resizeCanvas();
-      rebuildPetals();
-    }
-    window.addEventListener('resize', onResize);
-    // also resize on load (fonts/images may change heights)
-    window.addEventListener('load', onResize);
+  // mouse velocity tracker
+  const mouse = { x: 0, y: 0, lastX: 0, lastY: 0 };
+  window.addEventListener('mousemove', (e) => {
+    const rect = footer.getBoundingClientRect();
+    mouse.x = Math.max(0, Math.min(rect.width, e.clientX - rect.left));
+    mouse.y = Math.max(0, Math.min(rect.height, e.clientY - rect.top));
+  });
 
+  function onResize() {
     resizeCanvas();
     rebuildPetals();
+  }
+  window.addEventListener('resize', onResize);
 
-    let rafId = null;
-    let animating = false;
-    const footerObserver = new IntersectionObserver((entries) => {
-      entries.forEach(en => {
-        if (en.isIntersecting) startFooterAnim();
-        else stopFooterAnim();
-      });
-    }, { threshold: 0.02 });
-    footerObserver.observe(footer);
+  // call resize after page load, after fonts/images settle, and again shortly after
+  window.addEventListener('load', onResize);
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => onResize());
+  }
+  // last-resort late correction for async images
+  setTimeout(onResize, 600);
 
-    function startFooterAnim() {
-      if (animating) return;
-      animating = true;
-      mouse.lastX = mouse.x;
-      mouse.lastY = mouse.y;
-      loop();
+  // initial setup
+  resizeCanvas();
+  rebuildPetals();
+
+  let rafId = null;
+  let animating = false;
+  const footerObserver = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      if (en.isIntersecting) startFooterAnim();
+      else stopFooterAnim();
+    });
+  }, { threshold: 0.02 });
+  footerObserver.observe(footer);
+
+  function startFooterAnim() {
+    if (animating) return;
+    animating = true;
+    mouse.lastX = mouse.x;
+    mouse.lastY = mouse.y;
+    loop();
+  }
+  function stopFooterAnim() {
+    animating = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+    fctx.clearRect(0, 0, fcanvas.width, fcanvas.height);
+  }
+  function loop() {
+    const vx = (mouse.x - mouse.lastX) * 0.02;
+    const vy = (mouse.y - mouse.lastY) * 0.02;
+    mouse.lastX += (mouse.x - mouse.lastX) * 0.12;
+    mouse.lastY += (mouse.y - mouse.lastY) * 0.12;
+
+    const rect = footer.getBoundingClientRect();
+    // clear in CSS-pixel coordinates (context already scaled by dpr)
+    fctx.clearRect(0, 0, rect.width, rect.height);
+
+    for (let p of fpetals) {
+      p.update(vx, vy);
+      p.draw(fctx);
     }
-    function stopFooterAnim() {
-      animating = false;
-      if (rafId) cancelAnimationFrame(rafId);
-      rafId = null;
-      fctx.clearRect(0, 0, fcanvas.width, fcanvas.height);
-    }
-    function loop() {
-      const vx = (mouse.x - mouse.lastX) * 0.02;
-      const vy = (mouse.y - mouse.lastY) * 0.02;
-      mouse.lastX += (mouse.x - mouse.lastX) * 0.12;
-      mouse.lastY += (mouse.y - mouse.lastY) * 0.12;
+    rafId = requestAnimationFrame(loop);
+  }
 
-      const rect = footer.getBoundingClientRect();
-      fctx.clearRect(0, 0, rect.width, rect.height);
+  // Respect reduced motion
+  const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (mq && mq.matches) stopFooterAnim();
+} // end footer handling
 
-      for (let p of fpetals) {
-        p.update(vx, vy);
-        p.draw(fctx);
-      }
-      rafId = requestAnimationFrame(loop);
-    }
-
-    // Accessibility: respect reduced motion preference
-    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mq && mq.matches) stopFooterAnim();
-  } // end footer handling
-
+   
   /*********** CONTACT FORM HANDLING ***********/
   const contactForm = document.getElementById('contactForm');
   if (contactForm) {
